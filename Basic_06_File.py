@@ -1,4 +1,4 @@
-1.File
+
 
 # 读取
 with open("file.txt", "r", encoding="utf-8") as f:
@@ -20,12 +20,3 @@ with open("out.txt", "w", encoding="utf-8") as f:
 with open("file.txt", "a", encoding="utf-8") as f:
     f.write("新增一行\n")
 
-2.Os.path
-
-import os
-# 拼接路径（自动适配操作系统）
-path = os.path.join("data", "files", "test.txt")
-# 检查文件是否存在
-os.path.exists("data.txt")  # True/False
-# 创建文件夹
-os.makedirs("data/output", exist_ok=True)  # exist_ok防止报错

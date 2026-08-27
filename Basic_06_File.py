@@ -47,3 +47,67 @@ print(date_str)  # "20260828"
 # 更多格式：
 # %Y = 年（4位）, %m = 月, %d = 日
 # %H = 时, %M = 分, %S = 秒
+
+
+
+
+练习
+"""
+============================================
+题目：文件备份工具
+============================================
+功能：自动备份文件到指定文件夹，文件名加日期时间戳
+知识点：os.path / datetime / 文件读写
+"""
+
+import os
+from datetime import datetime
+
+def backup_file(filepath, backup_folder="backup"):
+    """
+    备份文件到指定文件夹，文件名加日期时间戳
+    参数：filepath-文件路径, backup_folder-备份文件夹名
+    返回：成功True，失败False
+    """
+    # 1. 检查源文件是否存在
+    if not os.path.exists(filepath):
+        print(f"错误：文件 {filepath} 不存在")
+        return False
+    
+    # 2. 生成带时间戳的新文件名
+    now = datetime.now()
+    date_str = now.strftime("%Y%m%d")  # "20260828"
+    
+    filename = os.path.basename(filepath)  # "scores.txt"
+    parts = filename.split(".")            # ["scores", "txt"]
+    name = parts[0]                        # "scores"
+    ext = parts[1]                         # "txt"
+    
+    newname = f"{name}-{date_str}-{ext}"   # "scores-20260828-txt"
+    
+    # 3. 创建备份文件夹（exist_ok=True 防止已存在时报错）
+    os.makedirs(backup_folder, exist_ok=True)
+    
+    # ⚠️ 易错点：os.path.join(文件夹, 文件名)，不是 join(文件路径, 文件名)
+    newfile = os.path.join(backup_folder, newname)
+    
+    # 4. 复制文件
+    try:
+        with open(filepath, "r", encoding="utf-8") as fin:
+            content = fin.read()
+        
+        with open(newfile, "w", encoding="utf-8") as fout:
+            fout.write(content)
+        
+        print(f"备份成功：{newfile}")
+        return True
+    except Exception as e:
+        print(f"备份失败：{e}")
+        return False
+
+
+# ========== 测试 ==========
+if __name__ == "__main__":
+    backup_file("scores.txt")
+    backup_file("notexist.txt")
+    backup_file("scores.txt", "my_backup")

@@ -225,3 +225,106 @@ if __name__ == "__main__":
     # 批量备份
     result = batch_backup("data", "backup")
     print(result)
+
+
+
+"""
+============================================
+题目：CSV文件筛选工具
+============================================
+功能：从CSV文件中筛选出分数高于指定值的学生
+知识点：跳过表头 / 按列取值 / 写入新文件
+"""
+
+import os
+
+def filter_by_score(filepath, output_file, min_score=80):
+    """
+    从CSV文件中筛选出分数高于指定值的学生
+    
+    参数：
+        filepath: 输入的CSV文件路径
+        output_file: 输出文件路径
+        min_score: 最低分数线，默认80分
+    
+    返回：
+        {"筛选前": 总行数, "筛选后": 行数, "最高分": 分数}
+    """
+    # 1. 检查文件是否存在
+    if not os.path.exists(filepath):
+        print(f"文件 {filepath} 不存在")
+        return {"筛选前": 0, "筛选后": 0, "最高分": None}
+    
+    try:
+        # 2. 读取文件
+        with open(filepath, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        
+        # 3. 检查文件是否为空
+        if not lines:
+            print("文件为空")
+            return None
+        
+        # 4. 保存表头（第一行）
+        header = lines[0].strip()
+        
+        # 5. 初始化变量
+        total = 0          # 总行数
+        max_score = 0      # 最高分
+        filtered = []      # 筛选结果
+        
+        # 6. 遍历数据行（跳过表头）
+        # ⚠️ lines[1:] 表示从第2行开始取到最后
+        for line in lines[1:]:
+            line = line.strip()      # 去掉换行符
+            if line == "":           # 跳过空行
+                continue
+            
+            total += 1
+            parts = line.split(",")   # 按逗号分割
+            score = int(parts[2])     # 第3列是分数（索引2）
+            
+            # 筛选分数 >= min_score
+            if score >= min_score:
+                filtered.append(line)
+            
+            # 更新最高分
+            if score > max_score:
+                max_score = score
+        
+        # 7. 写入新文件（先写表头，再写数据）
+        with open(output_file, "w", encoding="utf-8") as fo:
+            fo.write(header + "\n")        # 写表头
+            for line in filtered:          # 写数据
+                fo.write(line + "\n")
+        
+        # 8. 打印并返回结果
+        print(f"筛选完成！原文件 {total} 行，筛选后 {len(filtered)} 行")
+        print(f"最高分：{max_score}")
+        
+        return {
+            "筛选前": total,
+            "筛选后": len(filtered),
+            "最高分": max_score
+        }
+    
+    except Exception as e:
+        print(f"处理失败：{e}")
+        return None
+
+
+# ========== 测试 ==========
+if __name__ == "__main__":
+    # 创建测试文件
+    with open("students.csv", "w", encoding="utf-8") as f:
+        f.write("姓名,班级,分数\n")
+        f.write("张三,一班,85\n")
+        f.write("李四,二班,92\n")
+        f.write("王五,一班,78\n")
+        f.write("赵六,三班,65\n")
+        f.write("孙七,二班,88\n")
+        f.write("周八,一班,59\n")
+    
+    # 筛选80分以上
+    result = filter_by_score("students.csv", "high_score.csv", min_score=80)
+    print(result)

@@ -328,3 +328,86 @@ if __name__ == "__main__":
     # 筛选80分以上
     result = filter_by_score("students.csv", "high_score.csv", min_score=80)
     print(result)
+
+
+"""
+============================================
+题目：健壮的数据处理函数
+============================================
+功能：安全处理CSV文件，能应对各种异常情况
+知识点：自定义异常 / 双层try / 多种异常捕获
+"""
+
+import os
+
+
+class DataError(Exception):
+    """自定义异常：数据格式错误"""
+    pass
+
+
+def safe_process_csv(filepath, min_score=80):
+    """
+    安全处理CSV文件，能应对各种异常情况
+    
+    参数：
+        filepath: CSV文件路径
+        min_score: 最低分数线，默认80
+    
+    返回：
+        {"状态": "成功"/"失败", "数据": [...], "错误": "错误信息"}
+    """
+    try:
+        # 1. 检查文件是否存在
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"文件 {filepath} 不存在")*****后面一定要写字
+        
+        with open(filepath, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        
+        # 2. 检查文件是否为空
+        if not lines:
+            raise DataError("文件为空")
+        
+        # 3. 处理数据
+        header = lines[0].strip().split(",")
+        result = []
+        
+        for line in lines[1:]:
+            line = line.strip()
+            if line == "":
+                continue
+            
+            # 内层 try：处理单行数据错误
+            try:
+                parts = line.split(",")
+                score = int(parts[2])
+                if score >= min_score:
+                    result.append({
+                        "姓名": parts[0],
+                        "班级": parts[1],
+                        "分数": score
+                    })
+            except (ValueError, IndexError):
+                # ValueError: 分数不是数字
+                # IndexError: 列数不够
+                continue  # 跳过坏数据
+        
+        return {"状态": "成功", "数据": result, "错误": None}
+    
+    # 外层 try：处理文件层面的错误
+    except FileNotFoundError as e:
+        return {"状态": "失败", "数据": [], "错误": str(e)}
+    except DataError as e:
+        return {"状态": "失败", "数据": [], "错误": str(e)}
+    except Exception as e:
+        return {"状态": "失败", "数据": [], "错误": f"未知错误：{e}"}
+
+
+# 测试
+if __name__ == "__main__":
+    result = safe_process_csv("students.csv")
+    print(result)
+    
+    result = safe_process_csv("notexist.csv")
+    print(result)

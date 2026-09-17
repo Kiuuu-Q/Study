@@ -211,3 +211,152 @@ if __name__ == "__main__":
     result = clean_data("dirty.csv", "clean.csv")
     print(result)
 
+
+
+
+
+day3(多表操作）
+1.手动读取
+import pandas as pd
+
+df1 = pd.read_csv("data/class1.csv")
+df2 = pd.read_csv("data/class2.csv")
+df3 = pd.read_csv("data/class3.csv")
+
+df_all = pd.concat([df1, df2, df3], ignore_index=True)
+
+
+2.自动读取
+import os
+import pandas as pd
+
+folder = "data"
+all_files = [f for f in os.listdir(folder) if f.endswith(".csv")]
+
+dfs = []
+for file in all_files:
+    path = os.path.join(folder, file)
+    df = pd.read_csv(path)
+    dfs.append(df)
+
+df_all = pd.concat(dfs, ignore_index=True)
+
+
+3.拼接
+上下：
+result = pd.concat([df1, df2])                     # 索引重复
+result = pd.concat([df1, df2], ignore_index=True)  # 重新编号
+
+左右
+result = pd.concat([df1, df2], axis=1)
+
+merge关联
+result = pd.merge(df1, df2, on="姓名", how="inner")
+
+4.查看合并结果
+df_all.shape                # (行数, 列数)
+df_all.head()               # 看前5行
+df_all.tail()               # 看后5行
+df_all.duplicated().sum()   # 重复行数
+df_all.drop_duplicates()    # 删除重复
+df_all.info()               # 数据类型
+df_all.describe()           # 统计信息
+
+
+5.分组后导出多个文件
+os.makedirs("output", exist_ok=True)
+
+for cls, group in df.groupby("班级"):
+    filename = os.path.join("output", f"{cls}.csv")
+    group.to_csv(filename, index=False, encoding="utf-8-sig")
+
+"""
+============================================
+题目：多班级成绩汇总分析
+============================================
+功能：合并文件夹内所有CSV，按班级分组导出并汇总
+知识点：pd.concat / drop_duplicates / groupby / to_csv
+"""
+
+import os
+import pandas as pd
+
+
+def merge_and_analyze(folder_path, output_folder="output"):
+    """
+    合并文件夹内所有CSV成绩文件，并分析
+    
+    参数：
+        folder_path: 包含多个CSV的文件夹
+        output_folder: 输出文件夹
+    
+    返回：
+        dict: 汇总信息
+    """
+    # 1. 检查文件夹是否存在
+    if not os.path.exists(folder_path):
+        raise FileNotFoundError(f"文件夹 {folder_path} 不存在")
+    
+    # 2. 列出所有CSV文件
+    all_files = [f for f in os.listdir(folder_path) if f.endswith(".csv")]
+    
+    if not all_files:
+        print("未找到任何 CSV 文件")
+        return None
+    
+    # 3. 逐个读取并合并
+    dfs = []
+    for file in all_files:
+        path = os.path.join(folder_path, file)
+        df = pd.read_csv(path)
+        dfs.append(df)
+    
+    df_all = pd.concat(dfs, ignore_index=True)
+    
+    # 4. 去重
+    df_all = df_all.drop_duplicates()
+    
+    # 5. 创建输出文件夹
+    os.makedirs(output_folder, exist_ok=True)
+    
+    # 6. 按班级分组导出
+    for cls, group in df_all.groupby("班级"):
+        filename = os.path.join(output_folder, f"{cls}.csv")
+        group.to_csv(filename, index=False, encoding="utf-8-sig")
+        print(f"已导出：{filename}")
+    
+    # 7. 生成汇总表
+    summary = df_all.groupby("班级")["分数"].agg(["mean", "max", "count"])
+    summary_file = os.path.join(output_folder, "summary.csv")
+    summary.to_csv(summary_file, encoding="utf-8-sig")
+    
+    # 8. 返回汇总信息
+    return {
+        "总人数": len(df_all),
+        "班级数": len(summary),
+        "最高分": df_all["分数"].max()
+    }
+
+
+# 测试
+if __name__ == "__main__":
+    result = merge_and_analyze("data")
+    print(result)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

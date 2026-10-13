@@ -1,5 +1,16 @@
 Chap03
 
+
+编写函数print_right，接受字符串形参text，打印该字符串，用空格填充左边，从而让text中的最后一个字母出现在一行的第40列。
+def print_right(text):
+    print(" " * (40 - len(text)) + text)
+
+print_right("nana")
+
+                          nana
+
+
+
 金字塔：
 def triangle(x, y):
     for i in range(1, y + 1):

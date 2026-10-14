@@ -2,6 +2,8 @@ from jupyturtle import penup, pendown
 from jupyturtle import left, right,forward
 from jupyturtle import make_turtle
 import math
+#from math import*
+就可以导入所有关于math的了
 
 def jump(length):
     """向前移动`length`的距离，不留下踪迹。

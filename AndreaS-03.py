@@ -24,6 +24,12 @@ MMM
 MMMM
 MMMMM
 
+如果要反过来：
+list(range(5,0,-1)) #[5,4,3,2,1]
+so:
+for i in range(y,0,-1):
+    prnit(x*i)
+
 
 矩形：
 def rectangle(x, y, z):

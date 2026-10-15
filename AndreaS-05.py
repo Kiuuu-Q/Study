@@ -7,7 +7,16 @@ answer+=[X]
 answer.append(X)
 
 
-3.ASCII码加密解密
+3.乘法表
+def mult_table(N):
+    for x in range(1,N+1):
+        for y in range(1,N+1):
+             print(x*y,end=' ')。  #默认的end是'\n'，这样可以避免换行
+        print()     #换行
+
+
+
+4.ASCII码加密解密
 def encode_char(C,K):
   code=ord(C)  #将字母转为数字码
   moved=code+K #将ASCII码加上位移量K，得到新码
@@ -41,7 +50,7 @@ def caesar_decrypt(text,K):
          所以，-K就是反着走，解密
 
 
-4.进制转换
+5.进制转换
        #前置函数
 def convert_digit(letter):
     if '0'<=letter<='9':

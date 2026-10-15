@@ -64,7 +64,7 @@ def convert_digit(letter):
 def convert_base(X,K):      #K是进制
     current_sum=0
     current_power=1  #当前权重
-    for letter in reversed(text):    #reversed倒过来，比如ABC变CBA，因为要从低位开始
+    for letter in reversed(str(X):    #reversed倒过来，比如ABC变CBA，因为要从低位开始
         number=convert_digit(letter)     #比如说16进制的1F，F换过来number就是15
         contribution=current_power*number
         current_sum+=contribution

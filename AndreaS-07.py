@@ -10,6 +10,10 @@ for line in open('words.txt'):
 output_file.write('Andrea')
 output_file.close()    #不写的话会丢失文件
 
+ 
+f.write(f"{x*y}" ）
+print(x*y,end=" ",file=output_file)
+
 
 
 2.in运算符

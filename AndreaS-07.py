@@ -2,6 +2,7 @@
 file_object=open('words.txt')
 line = file_object.readline()
 word = line.strip()      #去除首尾格
+word=line.replace(',',' ')
 
 for line in open('words.txt'):
     word = line.strip()
@@ -9,6 +10,7 @@ for line in open('words.txt'):
 
 output_file.write('Andrea')
 output_file.close()    #不写的话会丢失文件
+
 
  
 f.write(f"{x*y}" ）

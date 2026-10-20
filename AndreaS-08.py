@@ -68,6 +68,9 @@ re.findall(r"[a-z]+", "Hello World", re.I)      # ['Hello', 'World']   ← re.I 
 5.finditer
 
 
+6.strip
+"xxhelloxx".strip("x")          # 'hello'    ← 去掉首尾所有的 'x'
+"###title###".strip("#")       # 'title'
 
 
 

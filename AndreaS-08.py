@@ -9,6 +9,13 @@ re.search(r"world", s)     # <Match 'world'>
 re.fullmatch(r"hello", s)  # None —— 必须匹配整串
 re.fullmatch(r"hello.*", s) # <Match 'hello world'>—— 有hello就行
 
+    #我们可以使用这个函数找到第1次提到某个角色的行。
+def find_first(pattern):
+    for line in open('pg345_cleaned.txt'):
+        result = re.search(pattern, line)
+        if result != None:
+            return result
+
 
 
 2.
@@ -33,10 +40,53 @@ def count_matches(pattern):
 
 
 3.
+
+     #左右任意一个就可以
 pattern = 'Mina|Murray'
 
-result = find_first(pattern)
-result.string
-# 'CHAPTER V. Letters—Lucy and Mina\n'
-count_matches('Mina|Murray')   # 229
-#| 左边或右边任意一个匹配即可。 count_matches 数出有 229 行提到她（名或姓）
+     # 以 Dracula 开头的行
+result = find_first('^Dracula')   
+
+    # 以 Harker 结尾的行
+result = find_first('Harker$')
+
+    # 匹配 center 或 centre
+pattern = 'cent(er|re)' 
+
+    # colour 或 color
+pattern = 'colou?r'
+
+
+4.findall
+ 
+re.findall(r"\d+", "a1 bb22")                     # ['1', '22']
+re.findall(r"(\d+)px", "10px 20px 30em")          # ['10', '20'] 
+re.findall(r"(\w+)=(\d+)", "a=1,b=2")            # [('a', '1'), ('b', '2')]
+re.findall(r"(?:\d+)px", "10px 20px")          # ['10px', '20px'] 
+re.findall(r"[a-z]+", "Hello World", re.I)      # ['Hello', 'World']   ← re.I 让 [a-z] 也匹配大写
+
+5.finditer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

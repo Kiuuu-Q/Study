@@ -66,27 +66,6 @@ Example:
 
 '''
 def func2(str1, str2):
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     str3=""
     for x,y in zip(str1,str2):
         if x<=y:

@@ -117,9 +117,20 @@ rounded to the second decimal digit.
 def func4(inputfilename, outputfilename):
     with open(inputfilename,"r",encoding="utf-8")as fin:
         lines=fin.readlines()
-        s=0
-        for line in lines:
-            line=line.replace
+        res=[]
+        for word in lines:
+            words=word.replace(",","").replace(";","").split()
+            S=0
+            for i in range(len(words)):
+                if i%2==0:
+                    s=s+float(words[i])
+                else:
+                    s=s-float(words[i])
+                    res.append(round(s,2))
+    with open(outputfilename,"w",encoding="utf-8")as fout:
+        for x in res:
+            fout.write(str(x)+"\n")
+    return max(res)
     
         
             

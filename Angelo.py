@@ -63,6 +63,14 @@ print(sorted(l, key = vowels_len_alpha, reverse = True)) # ['avocado', 'banana',
 
 
 
+去重
+
+def quchong(alist):
+    count=0
+    for i in range(len(alist)-1,0,-1)：  #这样从后往前删，索引不会乱掉
+        if alist[i-1]==alist[i]:
+        alist=+1
+    return count
 
 
 

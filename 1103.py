@@ -29,8 +29,6 @@ def common_keys(dicts):
     result = set(dicts[0])    #set（dict）取的是键    
     for d in dicts[1:]:
         result &= set(d)          
-        if not result:         
-            break
     return result
 
 
@@ -62,7 +60,16 @@ def func2(words):
     return dic
 
 
-    pass
+#类似
+ 写一个函数 group_by_first(words)，输入是一个字符串列表。返回一个字典：
+def group_by_first(words):
+    dic={}
+    for word in words:
+        dic.setdefault(word[0].casefold(),[]).append(word)
+    for lst in dic.values():
+        lst.sort()
+    return dic
+
 # %% ----------------------------------- FUNC3 ------------------------- #
 '''func3: 20 marks
 
@@ -94,6 +101,21 @@ def func3(int_list, Action):
     int_list.sort(reverse=True)
     return count
     pass
+
+#类似
+nums = [3, -3, 5, 3, 2]
+ops = {3: 'double', 5: 'drop'}最后把 nums 按绝对值降序排序（绝对值相同则按原值升序）。返回被删除的元素个数。
+
+def apply_ops(nums, ops):
+    count = 0
+    for key, value in ops.items():
+        if value == "double":
+            nums[:] = [x * 2 if x == key else x for x in nums]   # 原地替换
+        elif value == "drop":
+            count += nums.count(key)
+            nums[:] = [x for x in nums if x != key]              # 原地删除
+    nums.sort(key=lambda x: (-abs(x), x))                        # 绝对值降序、原值升序
+    return count
 
 # %% ----------------------------------- FUNC4 ------------------------- #
 '''func4: 20 marks
@@ -128,6 +150,13 @@ def func4(pairs):
     return sorted(pairs,key=key_func)
 
     pass
+
+
+def sort_records(records):
+    def key_func(rec):
+        s, n = rec
+        return (len(s), -n, s)      # 长度升序、整数降序、字符串升序
+    return sorted(records, key=key_func)
 
 
 

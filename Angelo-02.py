@@ -30,3 +30,17 @@ def rem_consec_dupl(alist):
             i += 1
 
     return count
+
+
+def nor(d):
+    new_d = {}
+    for key, value in d.items():
+                    # 这里用 title() 让每个单词首字母都大写（capitalize是第一个）
+        new_key = key.strip().title() 
+        new_value = value.strip().upper()
+        new_d[new_key] = new_value
+    return new_d
+
+d = {' angelo spognardi ': ' admin ', 'xi zhang': ' editor', 'guo li zhu': 'guest '}
+print(nor(d))
+# 输出完美匹配目标：{'Angelo Spognardi': 'ADMIN', 'Xi Zhang': 'EDITOR', 'Guo Li Zhu': 'GUEST'}

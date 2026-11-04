@@ -89,6 +89,27 @@ if "name" in student:
 
 
 
+#完整题目
+def analyze_logs(logs):
+    d = {}
+    for log in logs:
+        # 1. 切分用户名和动作，并清理空格和大小写
+        parts = log.split(":")
+        user = parts[0].strip().lower()
+        action = parts[1].strip().lower()
+        
+        # 2. 用 setdefault 分组（初始化空列表）
+        d.setdefault(user, [])
+        
+        # 3. 去重：如果动作不在列表里，才加进去
+        if action not in d[user]:
+            d[user].append(action)
+            
+    # 4. 遍历字典，对每个动作列表排序
+    for actions in d.values():
+        actions.sort()
+        
+    return d
 
 
 

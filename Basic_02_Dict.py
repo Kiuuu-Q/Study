@@ -15,6 +15,7 @@ d = dict(name="小明", age=18)  # 注意：这里键不用加引号
 fromkeys
 作用：用一堆键，快速生成一个字典，值全部一样。
 用法：dict.fromkeys(['a', 'b'], 0) 会生成 {'a': 0, 'b': 0}。注意这个是类方法，用 dict 调。
+fromkeys（keys）——> {k1:None,k2:None,k3:None}
 
 
 2.取值

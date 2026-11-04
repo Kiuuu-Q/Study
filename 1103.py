@@ -225,8 +225,32 @@ def func5(inputfilename, outputfilename):
 
 
 
-
-
+def word_occurrences(inputfilename, outputfilename):
+    d = {}
+    with open(inputfilename, "r", encoding="utf-8") as f_in:
+        for lineno, line in enumerate(f_in):
+            # 把分号也加上，以防万一
+            parts = line.replace(",", " ").replace(";", " ").split()
+            for word in parts:
+                word = word.lower()  # 必须重新赋值
+                
+                d.setdefault(word, [])
+                # 去重：如果这个行号还不在列表里，再添加
+                if lineno not in d[word]:
+                    d[word].append(lineno)
+                    
+    with open(outputfilename, "w", encoding="utf-8") as f_out:
+        lst = list(d.items()) # 必须转成列表
+        # 长度降序，字母升序
+        lst.sort(key=lambda x: (-len(x[0]), x[0])) 
+        
+        for word, linenos in lst:
+            # 处理行号列表：先转成字符串，再用空格拼接
+            linenos_str = " ".join(map(str, linenos))
+            # 写入文件
+            f_out.write(word + " " + linenos_str + "\n")
+            
+    return d  # 题目要求返回字典
 
 
 

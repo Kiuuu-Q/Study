@@ -29,6 +29,7 @@ d["age"] = 19    # {"name": "小明", "age": 19}
 d["city"] = "北京"  # {"name": "小明", "age": 19, "city": "北京"}
 #删除
 del d["age"]
+student.pop("gender", None) # 安全删除，找不到也不会报错
 
 4.遍历
 
@@ -56,5 +57,44 @@ users["小红"]["city"]   # "上海"
 # 安全的写法（防止键不存在）
 users.get("小明", {}).get("age", 0)  # 18
 users.get("王五", {}).get("age", 0)  # 0（不报错）
+
+
+6.进阶用法
+
+# 把列表变成字典：键是单词，值是单词长度
+words = ["apple", "banana"]
+word_len = {w: len(w) for w in words}
+# 结果: {'apple': 5, 'banana': 6}
+
+
+
+# 经典应用：把一堆单词按首字母分组
+words = ["ant", "apple", "bat"]
+groups = {}
+for w in words:
+    first_letter = w[0]
+    # 如果 first_letter 不在字典里，先建一个空列表 []，然后把 w 加进去
+    groups.setdefault(first_letter, []).append(w)
+    结果: {'a': ['ant', 'apple'], 'b': ['bat']}
+
+
+#判断是否存在
+if "name" in student:
+    print("找到了！")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

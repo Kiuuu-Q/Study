@@ -68,6 +68,29 @@ def number_of_craftable(inventory: list, recipe: dict) -> int:
 
 
 
+'''
+Define the function consonants(words) that receives a set of alphabetic character strings
+and returns a dictionary. The returned dictionary has
+integers as keys and for values the sets of words that contain a number
+of consonants equal to the corresponding key.
+
+    Example:
+        words = {"yak", "Gollum", "Batman", "AI", "star"}
+        consonants(words) returns {4: {'Batman', 'Gollum'}, 2: {'yak'}, 3: {'star'}, 0: {'AI'}}'''
+
+def consonants(words):
+    d={}
+    for word in words:
+        count=0
+        w=word.lower()
+        for x in w:
+            if not x in "aeiou":
+                count+=1
+            else:
+                count+=0
+        d.setdefault(count,set()).add(word)
+    return d
+
 
 
 

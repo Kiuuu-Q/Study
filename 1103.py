@@ -163,6 +163,64 @@ def sort_records(records):
 
 
 
+'''func5: 20 marks
+
+Write a function func5(inputfilename, outputfilename) that receives as input
+- inputfilename: a string representing the pathname of a text file,
+- outputfilename: a string representing the pathname of a text file.
+
+The inputfile contains several lines of text with words separated by
+any number of spaces (' '), commas (','), periods ('.').
+
+The function returns a dictionary where:
+- the keys are the words found in inputfilename, all in lowercase;
+- the corresponding values are lists of numbers, representing the line
+numbers in the input file where the words were found (case-insensitive,
+first line of the file is line 0).
+
+Moreover, the function must write in each line of outputfilename
+one of the words found in inputfilename in lowercase, followed by
+a space (' '), followed by the line numbers where the word appeared in
+the input file separated by spaces.
+Words in the output file must be ordered in descending order, while
+the line numbers must be in ascending order.
+
+Example, if the content of inputfilname is:
+cat tacos Coast
+coast toast
+Tacos
+
+TOAST caT costa
+cOast toast
+    
+func5(inputfilename, outputfilename) must return the dictionary
+{'cat':[0,4], 'tacos':[0,2], 'coast':[0,1,5], 'toast':[1,4,5], 'costa':[4]}
+and write the following in outputfilename:
+toast 1 4 5
+tacos 0 2
+costa 4
+coast 0 1 5
+cat 0 4
+'''
+
+def func5(inputfilename, outputfilename):
+    d = {}
+    with open(inputfilename, "r", encoding="utf-8") as f_in:
+        for lineno, line in enumerate(f_in):              # 行号从 0 开始
+            line = line.replace(",", " ").replace(".", " ").split()
+            for word in line:
+                w = word.lower()
+                if w not in d:
+                    d[w] = []
+                if lineno not in d[w]:                    # 去重（可选，但更严谨）
+                    d[w].append(lineno)
+
+    with open(outputfilename, "w", encoding="utf-8") as f_out:
+        for word in sorted(d, reverse=True):              # 单词降序
+            nums = sorted(d[word])                        # 行号升序
+            f_out.write(word + " " + " ".join(map(str, nums)) + "\n")。 #map，让num依次变str
+    return d
+
 
 
 

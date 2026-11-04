@@ -78,6 +78,11 @@ for w in words:
     结果: {'a': ['ant', 'apple'], 'b': ['bat']}
 
 
+！！！！！！！！！！
+如果是一对一（比如：学号 -> 成绩），用字典推导式。
+如果是一对多（比如：班级 -> 该班所有学生名单），用 setdefault（或者 if not in 判断）。
+
+
 #判断是否存在
 if "name" in student:
     print("找到了！")
